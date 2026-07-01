@@ -268,6 +268,8 @@
     .popup-ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
     .popup-ul li { font-size: 10.5px; color: rgba(245,240,232,0.55); display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
     .popup-ul li::before { content: '·'; color: var(--gold); flex-shrink: 0; }
+    .popup-goto { margin-top: 2px; background: none; border: 1px solid rgba(201,169,110,0.4); color: var(--gold); font-family: var(--font-ui); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 6px 14px; cursor: pointer; width: 100%; transition: background 0.2s, border-color 0.2s; }
+    .popup-goto:hover { background: rgba(201,169,110,0.1); border-color: var(--gold); }
     .leaflet-control-attribution { background: rgba(6,10,20,0.6) !important; color: rgba(255,255,255,0.18) !important; font-size: 7px !important; }
     .leaflet-control-attribution a { color: rgba(201,169,110,0.35) !important; }
     .leaflet-bar { border: 1px solid rgba(201,169,110,0.18) !important; border-radius: 2px !important; box-shadow: none !important; }
@@ -857,33 +859,71 @@
 
   // ── DATA ──────────────────────────────────────────────────────
   const ROUTE = [
-    { id:'madrid', num:'01', name:'Madrid', coords:[40.4168,-3.7038], days:'Días 1–2', dates:'10–11 Jul',
-      highlights:['Gran Vía & Puerta del Sol','Palacio Real','Museo del Prado','Parque del Retiro'],
+    { id:'madrid', num:'01', name:'Madrid', slide:2, coords:[40.4168,-3.7038], days:'Días 1–2', dates:'10–11 Jul',
+      highlights:[
+        'Gran Vía & Puerta del Sol — el kilómetro cero de España',
+        'Palacio Real — 3.418 habitaciones, el más grande de Europa occidental',
+        'Museo del Prado — Velázquez, Goya, El Greco bajo un mismo techo',
+        'Parque del Retiro — pulmón verde del siglo XVII, antes jardín real',
+        'La Venencia — bar de jerez desde 1929, sin fotos ni cócteles',
+        'Mercado San Fernando (Lavapiés) — el auténtico, no el de turistas'
+      ],
       hotels:[{n:'Hotel Praga',a:'Antonio López, 65'},{n:'Hotel Agumar',a:'Pso. Reina Cristina, 7'}],
       pois:[{n:'Puerta del Sol',c:[40.4166,-3.7038]},{n:'Gran Vía',c:[40.4199,-3.7032]},{n:'Palacio Real',c:[40.4177,-3.7144]},{n:'Museo del Prado',c:[40.4138,-3.6921]}]
     },
-    { id:'zaragoza', num:'02', name:'Zaragoza', coords:[41.6561,-0.8773], days:'Parada Día 3', dates:'12 Jul',
-      highlights:['Basílica-Catedral del Pilar','Basílica de La Seo'],
+    { id:'zaragoza', num:'02', name:'Zaragoza', slide:4, coords:[41.6561,-0.8773], days:'Parada Día 3', dates:'12 Jul',
+      highlights:[
+        'Basílica del Pilar — la primera iglesia dedicada a la Virgen María en el mundo',
+        'Basílica de La Seo — mezcla única de gótico, mudéjar y barroco',
+        'Río Ebro — el más caudaloso de la Península Ibérica pasa bajo sus puentes'
+      ],
       hotels:[],
       pois:[{n:'Basílica del Pilar',c:[41.6572,-0.8773]},{n:'Basílica de La Seo',c:[41.6558,-0.8785]}]
     },
-    { id:'barcelona', num:'03', name:'Barcelona', coords:[41.3851,2.1734], days:'Día 3', dates:'12 Jul',
-      highlights:['Sagrada Família','Casa Batlló','La Pedrera (Casa Milà)','Passeig de Gràcia'],
+    { id:'barcelona', num:'03', name:'Barcelona', slide:4, coords:[41.3851,2.1734], days:'Día 3', dates:'12 Jul',
+      highlights:[
+        'Sagrada Família — en construcción desde 1882, proyectada para finalizar en 2026',
+        'Casa Batlló & La Pedrera — Gaudí transformó el Passeig de Gràcia en museo al aire libre',
+        'Barrio Gótico — caminas sobre Barcino, la colonia romana fundada ~15 a.C.',
+        'Park Güell — jardín con mosaicos que originalmente iba a ser una urbanización privada',
+        'Bunkers del Carmel — la mejor vista panorámica de Barcelona, sin colas',
+        'Mercado Santa Caterina — la alternativa local a La Boquería turística'
+      ],
       hotels:[{n:'Hesperia Bcn Sant Just',a:'Frederic Mompou, 1'},{n:'Catalonia Gran Hotel Verdi',a:'Av. Francesc Macià, 62'},{n:'Ibis Styles BCN Sant Joan',a:'Carrer TV3, 2'}],
       pois:[{n:'Sagrada Família',c:[41.4036,2.1744]},{n:'Casa Batlló',c:[41.3916,2.1650]},{n:'La Pedrera',c:[41.3955,2.1619]},{n:'Park Güell',c:[41.4145,2.1527]}]
     },
-    { id:'niza', num:'04', name:'Niza', coords:[43.7102,7.2620], days:'Día 4', dates:'13 Jul',
-      highlights:['Promenade des Anglais','Vieille Ville','Mercado Cours Saleya','Mónaco opcional'],
+    { id:'niza', num:'04', name:'Niza', slide:5, coords:[43.7102,7.2620], days:'Día 4', dates:'13 Jul',
+      highlights:[
+        'Promenade des Anglais — 7 km de paseo frente al Mediterráneo, construida por ingleses en 1820',
+        'Vieille Ville — callejuelas barrocas con mercado Cours Saleya desde el siglo XVII',
+        'Villefranche-sur-Mer — pueblo pesquero a 10 min con capilla de Jean Cocteau (1957)',
+        'Colline du Château — vistas panorámicas de la bahía, sin coste de entrada',
+        'Mónaco opcional — Montecarlo y el casino más famoso del mundo a 20 km',
+        '⚠️ Fuera de la playa: camisa puesta — multa €38 por bañador en el centro'
+      ],
       hotels:[{n:'Ibis Nice Aéroport',a:'359, Promenade des Anglais'},{n:'B&B Nice Stade Riviera',a:'311 Blvd. du Mercantour'},{n:'Ibis Nice Centre Gare',a:'14 Avenue Thiers'}],
       pois:[{n:'Promenade des Anglais',c:[43.6957,7.2712]},{n:'Vieille Ville',c:[43.6966,7.2763]},{n:'Colline du Château',c:[43.6953,7.2806]}]
     },
-    { id:'pisa', num:'05', name:'Pisa', coords:[43.7228,10.4017], days:'Parada Día 5', dates:'14 Jul',
-      highlights:['Torre Inclinada','Catedral de Pisa','Baptisterio','Piazza dei Miracoli'],
+    { id:'pisa', num:'05', name:'Pisa', slide:6, coords:[43.7228,10.4017], days:'Parada Día 5', dates:'14 Jul',
+      highlights:[
+        'Torre Inclinada — comenzó a inclinarse durante su construcción en 1173, y nunca paró',
+        'Catedral de Pisa — mármol blanco de Carrara, símbolo del poder marítimo medieval',
+        'Baptisterio — la acústtica más perfecta de Italia: un solo cantante suena a coro',
+        'Piazza dei Miracoli — Patrimonio UNESCO, una de las plazas más perfectas del mundo',
+        'Galileo Galilei nació aquí en 1564 y usó la Torre para sus experimentos de gravedad'
+      ],
       hotels:[],
       pois:[{n:'Torre Inclinada',c:[43.7230,10.3966]},{n:'Catedral de Pisa',c:[43.7229,10.3974]},{n:'Baptisterio',c:[43.7233,10.3960]}]
     },
-    { id:'roma', num:'06', name:'Roma', coords:[41.9028,12.4964], days:'Días 5–8', dates:'14–17 Jul',
-      highlights:['Coliseo Romano','Foros Imperiales','Ciudad del Vaticano','Capilla Sixtina','Fontana di Trevi'],
+    { id:'roma', num:'06', name:'Roma', slide:7, coords:[41.9028,12.4964], days:'Días 5–8', dates:'14–17 Jul',
+      highlights:[
+        'Coliseo — construido en solo 8 años (70-80 d.C.), cabía hasta 80.000 espectadores',
+        'Foros Imperiales — el centro político del mundo antiguo durante 500 años',
+        'Vaticano & Capilla Sixtina — Miguel Ángel tardó 4 años en pintar el techo (1508–1512)',
+        'Fontana di Trevi — se lanzan €3.000 en monedas cada día; leyenda: vuelves a Roma',
+        'Testaccio — el barrio donde nació la cocina romana: trippa, coda, supplì',
+        '⚠️ Evitar: restaurantes con fotos en el menú o camareros en la puerta'
+      ],
       hotels:[{n:'Grand Hotel Fleming',a:'Pza. Monteleone di Spoleto, 20'},{n:'Excel Roma Montemario',a:'Via Degli Scolopi, 31'},{n:'Capannelle Roma',a:'Via Siderno, 37'},{n:'Papillo Hotel Roma',a:'Via Arola, 53'},{n:'Black Roma',a:'Via R. Sardiello, 18'}],
       pois:[{n:'Coliseo Romano',c:[41.8902,12.4922]},{n:'Foros Imperiales',c:[41.8931,12.4853]},{n:'Vaticano',c:[41.9022,12.4534]},{n:'Capilla Sixtina',c:[41.9029,12.4545]},{n:'Fontana di Trevi',c:[41.9009,12.4833]},{n:'Piazza Navona',c:[41.8992,12.4731]}]
     }
@@ -1037,6 +1077,7 @@
           <div class="popup-city">${city.name}</div>
           <div class="popup-dates">${city.days} · ${city.dates}</div>
           ${poiHtml}${hotHtml}
+          ${city.slide !== undefined ? `<div class="popup-div"></div><button class="popup-goto" onclick="if(window._goToSlide){window._goToSlide(${city.slide});}">Ver slide →</button>` : ''}
         </div>`, {maxWidth:290})
         .addTo(map);
     });
