@@ -479,6 +479,157 @@
       .slide-bg video { animation: none; }
     }
 
+    /* ─── COUNTDOWN ─────────────────────────────────────────── */
+    .hero-countdown {
+      margin-top: 28px;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 6px;
+      opacity: 0;
+    }
+    .hero-countdown .cd-num {
+      font-family: var(--font-serif);
+      font-size: clamp(40px, 8vw, 72px);
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .hero-countdown .cd-label {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+      font-weight: 300;
+    }
+    .hero-countdown .cd-msg {
+      font-family: var(--font-serif);
+      font-size: clamp(18px, 3vw, 28px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* ─── SHARE BUTTON ───────────────────────────────────────── */
+    #share-btn {
+      position: fixed;
+      bottom: 28px;
+      left: 84px;
+      z-index: 9100;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,169,110,0.35);
+      background: rgba(8,12,24,0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s, background 0.3s;
+      outline: none;
+    }
+    #share-btn:hover { border-color: var(--gold); background: rgba(8,12,24,0.9); }
+    #share-btn svg { width: 17px; height: 17px; fill: none; stroke: var(--gold); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    #share-toast {
+      position: fixed;
+      bottom: 84px;
+      left: 28px;
+      z-index: 9200;
+      background: rgba(8,12,24,0.92);
+      border: 1px solid rgba(201,169,110,0.3);
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    #share-toast.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── NOTES ──────────────────────────────────────────────── */
+    .slide-note-btn {
+      position: absolute;
+      bottom: 28px;
+      right: 28px;
+      z-index: 100;
+      background: rgba(8,12,24,0.6);
+      border: 1px solid rgba(201,169,110,0.25);
+      color: rgba(245,240,232,0.4);
+      font-family: var(--font-ui);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s;
+      display: none;
+    }
+    .slide-note-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .slide-note-btn.has-note { color: var(--gold); border-color: rgba(201,169,110,0.5); }
+    @media (min-width: 768px) { .slide-note-btn { display: block; } }
+
+    .note-panel {
+      position: fixed;
+      bottom: 0; right: 0;
+      width: min(420px, 100vw);
+      z-index: 9300;
+      background: rgba(8,12,24,0.96);
+      border-top: 1px solid rgba(201,169,110,0.2);
+      border-left: 1px solid rgba(201,169,110,0.2);
+      backdrop-filter: blur(20px);
+      padding: 24px 28px 28px;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .note-panel.open { transform: translateY(0); }
+    .note-panel-title {
+      font-size: 8px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .note-panel textarea {
+      width: 100%;
+      height: 120px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,169,110,0.2);
+      color: var(--cream);
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.6;
+      padding: 12px;
+      resize: none;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .note-panel textarea:focus { border-color: rgba(201,169,110,0.5); }
+    .note-panel textarea::placeholder { color: rgba(245,240,232,0.2); font-style: italic; }
+    .note-panel-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px; }
+    .note-panel-actions button {
+      background: none;
+      border: 1px solid rgba(201,169,110,0.3);
+      color: rgba(245,240,232,0.5);
+      font-family: var(--font-ui);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .note-panel-actions .btn-save { border-color: var(--gold); color: var(--gold); }
+    .note-panel-actions button:hover { background: rgba(201,169,110,0.08); }
+
     /* ─── AUDIO BUTTON ──────────────────────────────────────── */
     #audio-btn {
       position: fixed;
@@ -532,6 +683,22 @@
   </div>
 
   <div id="progress-bar"></div>
+
+  <!-- Share button -->
+  <button id="share-btn" aria-label="Compartir" title="Copiar enlace">
+    <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+  </button>
+  <div id="share-toast">Enlace copiado</div>
+
+  <!-- Note panel -->
+  <div class="note-panel" id="note-panel">
+    <div class="note-panel-title" id="note-panel-title">Nota · Madrid</div>
+    <textarea id="note-textarea" placeholder="Escribe lo que quieras recordar de este lugar…"></textarea>
+    <div class="note-panel-actions">
+      <button id="note-close">Cerrar</button>
+      <button class="btn-save" id="note-save">Guardar</button>
+    </div>
+  </div>
 
   <!-- Audio player -->
   <audio id="bg-audio" src="./blue-bay-arrival.mp3" loop preload="none"></audio>
@@ -604,6 +771,7 @@
             <span>6 Ciudades</span><span class="sep">·</span>
             <span>2 015 km</span>
           </div>
+          <div class="hero-countdown" id="hero-countdown"></div>
         </div>
         <div class="scroll-hint">
           <span>Scroll para explorar</span>
@@ -1484,6 +1652,111 @@
     const mapa = document.getElementById('slide-mapa');
     if (mapa) obs.observe(mapa);
   }
+  // ── COUNTDOWN ────────────────────────────────────────────────
+  (function() {
+    const el = document.getElementById('hero-countdown');
+    if (!el) return;
+    const travel = new Date('2026-07-10T00:00:00');
+    const now = new Date();
+    const diff = Math.ceil((travel - now) / 86400000);
+    if (diff > 0) {
+      el.innerHTML = `<span class="cd-num">${diff}</span><span class="cd-label">días para el viaje</span>`;
+    } else if (diff === 0) {
+      el.innerHTML = `<span class="cd-msg">¡Hoy es el día!</span>`;
+    } else {
+      el.innerHTML = `<span class="cd-msg">En camino… ✦</span>`;
+    }
+    // animate in with GSAP after hero appears
+    document.addEventListener('gsap-hero-done', () => {
+      gsap.to(el, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+    });
+    // fallback: animate after 2s
+    setTimeout(() => { if (!el.style.opacity || el.style.opacity === '0') gsap.to(el, { opacity: 1, duration: 0.8 }); }, 2000);
+  })();
+
+  // ── SHARE BUTTON ──────────────────────────────────────────────
+  (function() {
+    const btn = document.getElementById('share-btn');
+    const toast = document.getElementById('share-toast');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const url = 'https://viaje-mediterraneo-2026.vercel.app';
+      navigator.clipboard.writeText(url).then(() => {
+        toast.classList.add('visible');
+        setTimeout(() => toast.classList.remove('visible'), 2200);
+      }).catch(() => {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        toast.classList.add('visible');
+        setTimeout(() => toast.classList.remove('visible'), 2200);
+      });
+    });
+  })();
+
+  // ── NOTES ─────────────────────────────────────────────────────
+  (function() {
+    const SLIDE_NAMES = ['Intro','La Ruta','Madrid I','Madrid II','Barcelona','Côte d\'Azur','Pisa','Roma I','Roma II','Fin'];
+    const panel = document.getElementById('note-panel');
+    const titleEl = document.getElementById('note-panel-title');
+    const textarea = document.getElementById('note-textarea');
+    const btnClose = document.getElementById('note-close');
+    const btnSave = document.getElementById('note-save');
+    if (!panel) return;
+
+    let currentSlide = 0;
+
+    // Add note button to each content slide (skip hero=0, map=1)
+    document.querySelectorAll('.slide').forEach((slide, i) => {
+      if (i < 2) return;
+      const btn = document.createElement('button');
+      btn.className = 'slide-note-btn';
+      btn.dataset.slide = i;
+      const saved = localStorage.getItem('note_' + i);
+      btn.textContent = saved ? '✦ Nota' : '+ Nota';
+      if (saved) btn.classList.add('has-note');
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openNote(i);
+      });
+      slide.appendChild(btn);
+    });
+
+    function openNote(idx) {
+      currentSlide = idx;
+      titleEl.textContent = 'Nota · ' + (SLIDE_NAMES[idx] || 'Slide ' + idx);
+      textarea.value = localStorage.getItem('note_' + idx) || '';
+      panel.classList.add('open');
+      setTimeout(() => textarea.focus(), 400);
+    }
+
+    btnClose.addEventListener('click', () => panel.classList.remove('open'));
+    btnSave.addEventListener('click', () => {
+      const val = textarea.value.trim();
+      if (val) {
+        localStorage.setItem('note_' + currentSlide, val);
+      } else {
+        localStorage.removeItem('note_' + currentSlide);
+      }
+      // update button state
+      const btn = document.querySelector(`.slide-note-btn[data-slide="${currentSlide}"]`);
+      if (btn) {
+        btn.textContent = val ? '✦ Nota' : '+ Nota';
+        btn.classList.toggle('has-note', !!val);
+      }
+      panel.classList.remove('open');
+    });
+
+    // close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && panel.classList.contains('open')) panel.classList.remove('open');
+    });
+  })();
+
   // ── AUDIO PLAYER ─────────────────────────────────────────────
   (function() {
     const audio = document.getElementById('bg-audio');
